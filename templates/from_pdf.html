@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}pdf_convertor{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <header>
+        <h2>{{ login }} <a href="{{ url_for('index') }}">Logout</a></h2>
+    </header>
+
+<h1>Upload PDF File</h1>
+<form id="uploadForm" action="/from_pdf" method="POST" enctype="multipart/form-data">
+   <input type="file" name="file" />
+   <select name="language">
+    <option value="">-- language --</option>
+    <option value="en">English</option>
+    <option value="de">German</option>
+    <option value="fr">French</option>
+    <option value="it">Italian</option>
+    <option value="es">Spanish</option>
+    <option value="ru">Russian</option>
+</select>
+   <input type="submit"/>
+</form>
+
+<p><a href="{{ url_for('choice') }}"class="logo glow-on-hover">Back</a></p>
+
+<main class="container">
+    {% block content %} {% endblock %}
+</main>
+
+<div class="loader-container">
+    <img src="{{ url_for('static', filename='giphy1.gif') }}" alt="runner">
+</div>
+
+<script>
+   
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        document.querySelector('.loader-container').style.display = 'block';
+    });
+
+    
+    window.addEventListener('load', function() {
+        document.querySelector('.loader-container').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+</head>
+<body>
+    <header>
+        <h2>{{ login }} <a href="{{ url_for('index') }}">Logout</a></h2>
+    </header>
+    <h1>Your Voice Converter</h1>
+
+    <main class="container">
+        <button id="recordButton" class="logo glow-on-hover">Start Recording  <i class="fas fa-microphone"></i></button>
+        <button id="stopButton" style="display:none;"class="logo glow-on-hover">Stop Recording</button>
+        <span id="timer" style="display:none;">Recording Time: <span id="timerDisplay">0:00</span></span>
+        <form id="uploadForm" action="/from_voice" method="POST" enctype="multipart/form-data" style="display:none;">
+            <input type="file" name="file" id="audioFile" />
+            <input type="submit"class="logo glow-on-hover"/>
+        </form>
+        <p><a href="{{ url_for('choice') }}"class="logo glow-on-hover">Back</a></p>
+    </main>
+
+    <div class="loader-container">
+        <img src="{{ url_for('static', filename='giphy1.gif') }}" alt="runner">
+    </div>
+
+    <script>
+        let recordButton = document.getElementById('recordButton');
+        let stopButton = document.getElementById('stopButton');
+        let audioFileInput = document.getElementById('audioFile');
+        let uploadForm = document.getElementById('uploadForm');
+        let timerDisplay = document.getElementById('timerDisplay');
+        let timerContainer = document.getElementById('timer');
+        let chunks = [];
+        let recorder;
+        let startTime;
+        let timerInterval;
+
+        recordButton.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    startTime = Date.now();
+                    timerInterval = setInterval(updateTimer, 1000); 
+                    recorder = new MediaRecorder(stream);
+                    recorder.ondataavailable = e => {
+                        chunks.push(e.data);
+                    };
+                    recorder.onstop = e => {
+                        clearInterval(timerInterval); // Stop updating timer
+                        timerContainer.style.display = 'none'; // Hide timer display
+                        const blob = new Blob(chunks, { type: 'audio/mp3' });
+                        const file = new File([blob], 'recording.mp3', { type: 'audio/mp3' });
+                        const dt = new DataTransfer();
+                        dt.items.add(file);
+                        audioFileInput.files = dt.files;
+                        uploadForm.style.display = 'block';
+                    };
+                    recorder.start();
+                    recordButton.style.display = 'none';
+                    stopButton.style.display = 'block';
+                    timerContainer.style.display = 'block'; 
+                })
+                .catch(err => console.log('Error accessing microphone: ' + err));
+        });
+
+        stopButton.addEventListener('click', () => {
+            clearInterval(timerInterval); 
+            recorder.stop();
+            stopButton.style.display = 'none';
+            recordButton.style.display = 'block';
+            timerContainer.style.display = 'none'; // Hide timer display
+        });
+
+        function updateTimer() {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000); 
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`; 
+        }
+
+        uploadForm.addEventListener('submit', function() {
+            document.querySelector('.loader-container').style.display = 'block';
+        });
+
+        window.addEventListener('load', function() {
+            document.querySelector('.loader-container').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

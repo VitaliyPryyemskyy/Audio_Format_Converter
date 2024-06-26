@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}bonus_mp3{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  >
+</head>
+<body>
+    <header>
+        <h2>{{ login }} <a href="{{ url_for('index') }}">Logout</a></h2>
+    </header>
+<h1> Upload MP3 File </h1>
+<form id="uploadForm" action="/new_mp3" method="POST" enctype="multipart/form-data">
+
+    <input type="file" name="file" />
+    <input type="submit"/>
+</form>
+
+<p><a href="{{ url_for('choice') }}"class="logo glow-on-hover">Back</a></p>
+
+<main class="container">
+    {% block content %} {% endblock %}
+</main>
+
+<div class="loader-container">
+    <img src="{{ url_for('static', filename='giphy1.gif') }}" alt="runner">
+</div>
+
+<script>
+   
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        document.querySelector('.loader-container').style.display = 'block';
+    });
+
+    
+    window.addEventListener('load', function() {
+        document.querySelector('.loader-container').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

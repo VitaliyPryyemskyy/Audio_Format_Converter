@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Choice{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h2>Welcome, {{ login }} <a href="{{ url_for('index') }}">Logout</a></h2>
+    </header>
+    <main class="container">
+        <h1>Make your choice:</h1>
+        <a href="{{ url_for('upload_file') }}" class="logo glow-on-hover">Convert from mp4 to mp3 <span class="icon"></span></a>
+        <a href="{{ url_for('upload_pdf') }}" class="logo glow-on-hover">Convert from pdf to mp3 <span class="icon"></span></a>
+        <a href="{{ url_for('convert_txt') }}" class="logo glow-on-hover">Convert from txt to mp3 <span class="icon"></span></a>
+        <a href="{{ url_for('convert_image') }}" class="logo glow-on-hover">Convert from image to mp3 <span class="icon"></span></a>
+        <a href="{{ url_for('convert_youtube') }}" class="logo glow-on-hover">Convert from Youtube to mp3 <span class="icon"></span></a>
+        <a href="{{ url_for('bonus_mp3') }}" class="logo glow-on-hover">Convert from mp3 to txt <span class="icon"></span></a>
+        <a href="{{ url_for('convert_voice') }}" class="logo glow-on-hover">Convert from voice to txt <span class="icon"></span></a>
+        {% block content %} {% endblock %}
+    </main>
+</body>
+</html>

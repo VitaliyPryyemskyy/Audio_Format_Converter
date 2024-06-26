@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Main{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <header>
+        <h1>Welcome to SoundShift Pro:  </h1>
+        <h3>Your Ultimate Audio Format Converter</h3>
+    </header>
+    <main class="container">
+        <a href="{{ url_for('handle_form') }}" class="logo glow-on-hover">Registration <span class="icon-home"></span></a>
+        <a href="{{ url_for('login') }}" class="logo glow-on-hover">Login <span class="icon"></span></a>
+        {% block content %} {% endblock %}
+    </main>
+</body>
+</html>
