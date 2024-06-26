@@ -20,7 +20,7 @@ This build on Flask framework  application allows users to convert various file 
 
 1. ### Clone the repository
 
-git clone https://github.com/your-username/mp3-conversion-app.git
+git clone git@github.com:VitaliyPryyemskyy/Audio_Format_Converter.git
 
 cd mp3-conversion-app
 
