@@ -38,3 +38,5 @@ app.secret_key: Secret key for Flask session management.
 
 This script creates a virtual environment, installs necessary packages, sets up the database, and launches the application.
 
+5. ### Run the unittests
+python -m unittest 
