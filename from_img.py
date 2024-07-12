@@ -6,6 +6,18 @@ import os
 
 
 def img_to_mp3(image_path="test.jpg", language="en", app=None):
+     
+    """
+    Converts text from an image to an MP3 file.
+
+    Args:
+        image_path (str): Path to the image file.
+        language (str): Language of the text in the image (default is English).
+        app (Flask app): Flask app instance with configuration for upload folder.
+
+    Returns:
+        str: Name of the generated MP3 file.
+    """
 
     language_mapping = {
         "en": "eng",
@@ -21,3 +33,7 @@ def img_to_mp3(image_path="test.jpg", language="en", app=None):
     tts.save(mp3_file_path)
 
     return f"{file_name}.mp3"
+
+
+if __name__=='__main__':
+    img_to_mp3()

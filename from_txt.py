@@ -4,6 +4,19 @@ import os
 
 
 def text_to_mp3(file_path="test.txt", language="en", app=None):
+
+    """
+    Converts text from a text file to an MP3 file.
+
+    Args:
+        file_path (str): Path to the text file.
+        language (str): Language of the text (default is English).
+        app (Flask app): Flask app instance with configuration for upload folder.
+
+    Returns:
+        str: Name of the generated MP3 file or error message.
+    """
+    
     if Path(file_path).is_file() and Path(file_path).suffix == ".txt":
         print(f"[+] Original file {Path(file_path).name}")
 
@@ -19,3 +32,6 @@ def text_to_mp3(file_path="test.txt", language="en", app=None):
         return f"{file_name}.mp3"
     else:
         return "File not exists, or it's not a TXT file"
+
+if __name__=='__main__':
+    text_to_mp3()

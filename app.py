@@ -33,16 +33,32 @@ app.config["UPLOAD_FOLDER_PDF"] = UPLOAD_FOLDER_PDF
 
 
 def hash_password(password):
+    """
+    Hashes a password using SHA-256.
+    
+    :param password: The password to hash.
+    :return: The hashed password.
+    """
     return hashlib.sha256(password.encode()).hexdigest()
 
 
 @app.route("/")
 def index():
+    """
+    Renders the index page.
+    
+    :return: The rendered index.html template.
+    """
     return render_template("index.html")
 
 
 @app.route("/handle_form", methods=["GET", "POST"])
 def handle_form():
+    """
+    Handles the registration form submission.
+    
+    :return: The rendered form.html template or a registration success message.
+    """
     if request.method == "POST":
         user_login = request.form.get("login", "")
         user_password = request.form.get("password", "")
@@ -79,6 +95,11 @@ def handle_form():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Handles the login form submission.
+    
+    :return: The rendered login.html template or a redirect to the choice page upon successful login.
+    """
     if request.method == "POST":
         user_login = request.form.get("login", "")
         user_password = request.form.get("password", "")
@@ -102,12 +123,22 @@ def login():
 
 @app.route("/choice")
 def choice():
+    """
+    Renders the choice page for logged-in users.
+    
+    :return: The rendered choice.html template.
+    """
     login = session.get("login")
     return render_template("choice.html", login=login)
 
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_file():
+    """
+    Handles file uploads for conversion to MP3.
+    
+    :return: A link to download the converted MP3 file or the upload.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         if "file" not in request.files:
@@ -126,6 +157,12 @@ def upload_file():
 
 @app.route("/download/<filename>", methods=["GET"])
 def download_mp3(filename):
+    """
+    Serves the converted MP3 file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER"], filename, as_attachment=True
     )
@@ -133,6 +170,11 @@ def download_mp3(filename):
 
 @app.route("/from_pdf", methods=["GET", "POST"])
 def upload_pdf():
+    """
+    Handles PDF uploads for conversion to MP3.
+    
+    :return: A link to download the converted MP3 file or the from_pdf.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         if "file" not in request.files:
@@ -154,6 +196,12 @@ def upload_pdf():
 
 @app.route("/download_pdf_mp3/<filename>", methods=["GET"])
 def download_pdf_mp3(filename):
+    """
+    Serves the converted PDF to MP3 file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )
@@ -161,6 +209,11 @@ def download_pdf_mp3(filename):
 
 @app.route("/from_txt", methods=["GET", "POST"])
 def convert_txt():
+    """
+    Handles text file uploads for conversion to MP3.
+    
+    :return: A link to download the converted MP3 file or the from_txt.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         if "file" not in request.files:
@@ -180,6 +233,12 @@ def convert_txt():
 
 @app.route("/download_text_mp3/<filename>", methods=["GET"])
 def download_text_mp3(filename):
+    """
+    Serves the converted text to MP3 file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )
@@ -187,6 +246,11 @@ def download_text_mp3(filename):
 
 @app.route("/from_image", methods=["GET", "POST"])
 def convert_image():
+    """
+    Handles image file uploads for conversion to MP3.
+    
+    :return: A link to download the converted MP3 file or the from_image.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         if "file" not in request.files:
@@ -206,6 +270,12 @@ def convert_image():
 
 @app.route("/download_image_mp3/<filename>", methods=["GET"])
 def download_image_mp3(filename):
+    """
+    Serves the converted image to MP3 file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )
@@ -213,6 +283,11 @@ def download_image_mp3(filename):
 
 @app.route("/from_youtube", methods=["GET", "POST"])
 def convert_youtube():
+    """
+    Handles YouTube video URL submission for audio extraction and conversion to MP3.
+    
+    :return: A link to download the converted MP3 file or the from_youtube.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         video_url = request.form.get("video_url", "")
@@ -226,6 +301,12 @@ def convert_youtube():
 
 @app.route("/download_youtube_mp3/<filename>", methods=["GET"])
 def download_youtube_mp3(filename):
+    """
+    Serves the converted YouTube video to MP3 file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )
@@ -233,6 +314,11 @@ def download_youtube_mp3(filename):
 
 @app.route("/new_mp3", methods=["GET", "POST"])
 def bonus_mp3():
+    """
+    Handles file uploads for conversion to text from MP3.
+    
+    :return: A link to download the converted text file or the from_mp3.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         if "file" not in request.files:
@@ -253,6 +339,12 @@ def bonus_mp3():
 
 @app.route("/download_new_txt/<filename>", methods=["GET"])
 def download_new_txt(filename):
+    """
+    Serves the converted MP3 to text file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )
@@ -260,6 +352,11 @@ def download_new_txt(filename):
 
 @app.route("/from_voice", methods=["GET", "POST"])
 def convert_voice():
+    """
+    Handles voice recording file uploads for conversion to text.
+    
+    :return: A link to download the converted text file or the from_voice.html template.
+    """
     login = session.get("login")
     if request.method == "POST":
         file = request.files["file"]
@@ -277,6 +374,12 @@ def convert_voice():
 
 @app.route("/download_voice_txt/<filename>", methods=["GET"])
 def download_voice_txt(filename):
+    """
+    Serves the converted voice recording to text file for download.
+    
+    :param filename: The name of the file to download.
+    :return: The file for download.
+    """
     return send_from_directory(
         app.config["UPLOAD_FOLDER_PDF"], filename, as_attachment=True
     )

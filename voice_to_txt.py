@@ -3,6 +3,16 @@ import whisper
 
 def voice_recorder(file_path):
 
+    """
+    Transcribes speech from an audio file to a text file.
+
+    Args:
+        file_path (str): Path to the audio file.
+
+    Returns:
+        str: Path to the generated text file.
+    """
+    
     model = whisper.load_model("base")
     result = model.transcribe(file_path)
 
@@ -11,3 +21,6 @@ def voice_recorder(file_path):
         file.write(result["text"])
 
     return transcription_file
+
+if __name__=='__main__':
+    voice_recorder()
