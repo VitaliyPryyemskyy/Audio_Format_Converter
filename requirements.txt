@@ -10,3 +10,4 @@ numpy==1.26.4
 gTTS==2.5.1
 openai-whisper
 pytube==15.0.0
+tesseract-ocr
